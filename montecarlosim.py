@@ -36,8 +36,9 @@ def SimulateStock():
 all_paths = []
 all_prices = []
 for i in range(1000):
-    all_paths.append(SimulateStock())
-    all_prices.append(float(SimulateStock()[-1]))
+    path = SimulateStock()
+    all_paths.append(path)
+    all_prices.append(path[-1])
 
 
 

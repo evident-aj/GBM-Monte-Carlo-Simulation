@@ -1,6 +1,8 @@
 import yfinance as yf
 import math as math
 import numpy as np
+import matplotlib.pyplot as plt 
+import matplotlib.colors as clr 
 
 
 while True:
@@ -22,12 +24,23 @@ daily_vol = log_returns.std()
 dt = 1/252
 current_price = past.iloc[-1]
 
+
 def SimulateStock():
     drift = ((mean_daily_return - (daily_vol**2)/2) * dt)
     prices = [current_price]
     for i in range(1, 252 + 1):
         shock = daily_vol * np.random.normal() * math.sqrt(1/252)
         prices.append(prices[-1] * math.exp(drift + shock))
+    return prices
+
+all_paths = []
+all_prices = []
+for i in range(1000):
+    all_paths.append(SimulateStock())
+    all_prices.append(float(SimulateStock()[-1]))
+
+
+
 
 
 

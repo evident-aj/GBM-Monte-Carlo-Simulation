@@ -5,14 +5,14 @@ A stock price simulator built on Geometric Brownian Motion. Takes any ticker and
 <img width="1250" height="480" alt="Screenshot 2026-09-07 at 4 49 19 PM" src="https://github.com/user-attachments/assets/155ff60b-9c6c-4162-a407-7c9ebec862fc" />
 
 ## What it does
-- Downloads historical price data for any ticker via yfinance, with input validation
-- Takes a custom number of simulation days as user input, with error handling for non-numeric input
-- Pulls the company name (not just the ticker) to display in the chart title
-- Calculates log returns, mean daily return, and daily volatility from historical data
-- Simulates 1000 future price paths using GBM, each with a unique sequence of random shocks
-- Renders a two-panel layout: simulated paths on the left, a histogram of final prices on the right, both sharing the same price axis orientation so the two visually align
-- Color codes every path and every histogram bar by final price using the same colormap and normalization, so the two panels read as one consistent picture
-- Calculates 95% Value at Risk from the simulated final prices and displays it directly in the plot title
+- Downloads historical price data for a user-specified ticker using yfinance, with input validation.
+- Accepts a custom simulation length in days and handles non-numeric input.
+- Retrieves the company name for use in the chart title.
+- Calculates historical log returns, mean daily return, and daily volatility.
+- Simulates 1,000 potential future price paths using Geometric Brownian Motion (GBM), each with an independent sequence of random shocks.
+- Displays simulated paths alongside a histogram of final prices, with aligned price axes for easy comparison.
+- Applies a shared color scale to paths and histogram bars based on final price, keeping both panels visually consistent.
+- Estimates 95% Value at Risk (VaR) from the simulated final prices and displays it in the plot title.
 
 ## What Value at Risk means here
 95% VaR is the price below which only 5% of the 1000 simulated outcomes fall, calculated directly from the simulated final price distribution using numpy.percentile. It's a plain-language answer to: across 1000 plausible futures, what's the worst price I should reasonably expect in 95% of them.

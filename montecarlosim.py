@@ -9,7 +9,7 @@ while True:
     user_input = input("What stock would you like to analyze (e.g., AAPL): ")
     ticker_symbol = user_input.strip().upper()
     stock = yf.Ticker(ticker_symbol)
-    past = stock.history(period="5y")['Close']
+    past = stock.history(period="252d")['Close']
     if past.empty:
         print("No price data found for this ticker symbol.")
         continue
@@ -40,7 +40,26 @@ for i in range(1000):
     all_paths.append(path)
     all_prices.append(path[-1])
 
+cmp = plt.get_cmap('RdYlBu')
+color_norm = clr.Normalize(min(all_prices),max(all_prices))
 
+plt.subplot(1, 2, 1)
+for path in all_paths:
+    color = cmp(color_norm(path[-1]))
+    plt.plot(path, color=color, alpha=0.3)
+plt.title(f"GBM Monte Carlo Simulation\nTicker: {ticker_symbol}")
+plt.xlabel("Days")
+plt.ylabel("Stock Price $")
+
+plt.subplot(1, 2, 2)
+counts, bin_edges, bars = plt.hist(all_prices, orientation='horizontal')
+for i in range(len(bars)):
+    midpoint = (bin_edges[i] + bin_edges[i + 1])/2
+    bars[i].set_facecolor(cmp(color_norm(midpoint)))
+plt.xlabel("Frequency") 
+
+plt.tight_layout()
+plt.show()
 
 
 

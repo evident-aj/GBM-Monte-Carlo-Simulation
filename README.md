@@ -14,6 +14,14 @@ A stock price simulator built on Geometric Brownian Motion. Takes any ticker and
 - Applies a shared color scale to paths and histogram bars based on final price, keeping both panels visually consistent.
 - Estimates 95% Value at Risk (VaR) from the simulated final prices and displays it in the plot title.
 
+## Why Use Geometric Brownian Motion?
+Geometric Brownian Motion (GBM) provides a simple, efficient starting point for simulating stock prices. It combines an expected growth rate with random fluctuations to generate a range of possible outcomes.
+  - Keeps prices positive: GBM models proportional changes, so simulated prices stay above zero.
+  - Captures compounding: Price changes scale with the current stock price, reflecting percentage-based returns.
+  - Uses historical data: Return and volatility estimates help calibrate the simulation.
+  - Supports Monte Carlo analysis: Generating many possible paths helps visualize uncertainty and estimate potential downside risk.
+GBM assumes constant drift and volatility, with independent, normally distributed log returns. Real markets can experience sudden jumps, changing volatility, and more extreme outcomes than the model captures, so it serves as a useful baseline rather than a reliable price predictor.
+
 ## What Value at Risk means here
 95% VaR is the price below which only 5% of the 1000 simulated outcomes fall, calculated directly from the simulated final price distribution using numpy.percentile. It's a plain-language answer to: across 1000 plausible futures, what's the worst price I should reasonably expect in 95% of them.
 

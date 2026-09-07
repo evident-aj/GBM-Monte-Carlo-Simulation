@@ -57,7 +57,7 @@ plt.subplot(1, 2, 1)
 for path in all_paths:
     color = cmp(color_norm(path[-1]))
     plt.plot(path, color=color, alpha=0.3)
-plt.xlabel("Days")
+plt.xlabel("Trading Days")
 plt.ylabel("Stock Price $")
 
 
@@ -68,9 +68,9 @@ for i in range(len(bars)):
     bars[i].set_facecolor(cmp(color_norm(midpoint)))
 plt.xlabel("Frequency") 
 
-VaR = round(np.percentile(all_prices, 5), 2)
+var_95 = current_price - np.percentile(all_prices, 5)
 
-plt.suptitle(f"GBM Monte Carlo Simulation\nStock: {name}\nVaR: ${VaR}")
+plt.suptitle(f"GBM Monte Carlo Simulation\n"f"Stock: {name}\n"f"95% VaR per share ({days} trading days): ${var_95:.2f}")
 
 plt.tight_layout()
 plt.show()

@@ -2,7 +2,8 @@
 
 A stock price simulator built on Geometric Brownian Motion. Takes any ticker and a custom time frame, pulls historical data, and simulates 1000 possible future price paths. Color coded by final price, with a matching orientation-aligned histogram and 95% Value at Risk calculated.
 
-<img width="1250" height="480" alt="Screenshot 2026-09-07 at 4 49 19 PM" src="https://github.com/user-attachments/assets/155ff60b-9c6c-4162-a407-7c9ebec862fc" />
+<img width="1312" height="479" alt="Screenshot 2026-09-07 at 5 24 25 PM" src="https://github.com/user-attachments/assets/0dbaaffa-0843-4253-9f51-bd32c056c58c" />
+
 
 ## What it does
 - Downloads historical price data for a user-specified ticker using yfinance, with input validation.
@@ -48,8 +49,8 @@ python montecarlosim.py
 Enter any valid ticker and the number of days to simulate when prompted.
 
 ## How to read the chart
-- The graph displays the possible future for each simulated stock over the chosen number of days
-- Warmer colors indicate paths that ended at a lower final price, cooler colors indicate paths that ended higher
-- The histogram shows the distribution of all 1000 final prices
-- The simulated paths generally spread out over time, reflecting increasing uncertainty about future prices
-- The VaR figure marks the 5th percentile of simulated outcomes
+- Each line represents one possible stock price path over the selected number of trading days.
+- Dark purple indicates lower final prices, while bright yellow indicates higher final prices.
+- The histogram shows the distribution of final prices across all 1,000 simulations.
+- Paths and histogram bars use the same color scale for easy comparison.
+- The simulated paths generally spread out over time, reflecting increasing uncertainty.

@@ -24,7 +24,13 @@ Geometric Brownian Motion (GBM) provides a simple, efficient starting point for 
 GBM assumes constant drift and volatility, with independent, normally distributed log returns. Real markets can experience sudden jumps, changing volatility, and more extreme outcomes than the model captures, so it serves as a useful baseline rather than a reliable price predictor.
 
 ## What Value at Risk means here
-95% VaR is the price below which only 5% of the 1000 simulated outcomes fall, calculated directly from the simulated final price distribution using numpy.percentile. It's a plain-language answer to: across 1000 plausible futures, what's the worst price I should reasonably expect in 95% of them.
+The simulation uses numpy.percentile to calculate the 5th-percentile final price. Approximately 5% of simulated paths end below this price, while 95% end above it over the chosen simulation period.
+
+This price threshold can be converted into 95% Value at Risk (VaR) per share:
+
+**95% VaR = starting stock price − 5th-percentile final price**
+
+For example, if the starting price is $100 and the 5th-percentile final price is $85, the estimated VaR is $15 per share. Under the model, approximately 5% of outcomes involve losses greater than $15. VaR is not a maximum possible loss, and its accuracy depends on the model’s assumptions.
 
 ## Stack
 ```
@@ -35,8 +41,7 @@ matplotlib   — dual-panel visualization with colormap and per-bar recoloring
 ```
 
 ## Usage
-```
-bash
+```bash
 pip install yfinance numpy matplotlib
 python montecarlosim.py
 ```
@@ -46,5 +51,5 @@ Enter any valid ticker and the number of days to simulate when prompted.
 - The graph displays the possible future for each simulated stock over the chosen number of days
 - Warmer colors indicate paths that ended at a lower final price, cooler colors indicate paths that ended higher
 - The histogram shows the distribution of all 1000 final prices
-- Every path on the graph widens over time because uncertainty compounds with the square root of time, not linearly
+- The simulated paths generally spread out over time, reflecting increasing uncertainty about future prices
 - The VaR figure marks the 5th percentile of simulated outcomes

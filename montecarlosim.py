@@ -1,9 +1,9 @@
-import yfinance as yf
 import math
-import numpy as np
-import matplotlib.pyplot as plt 
-import matplotlib.colors as clr 
 
+import matplotlib.colors as clr
+import matplotlib.pyplot as plt
+import numpy as np
+import yfinance as yf
 
 while True:
     user_input = input("What stock would you like to analyze (e.g., AAPL): ")
@@ -19,7 +19,7 @@ while True:
     try:
         days = int(user_days)
         break
-    except:
+    except ValueError:
         print("Invalid number of days.")
         continue
     
@@ -30,17 +30,19 @@ days = int(user_days)
 
 mean_daily_return = log_returns.mean()
 daily_vol = log_returns.std()
-dt = 1/days
 current_price = past.iloc[-1]
 
 
 def SimulateStock():
-    drift = ((mean_daily_return - (daily_vol**2)/2) * dt)
     prices = [current_price]
-    for i in range(1, days + 1):
-        shock = daily_vol * np.random.normal() * math.sqrt(1/252)
-        prices.append(prices[-1] * math.exp(drift + shock))
+
+    for i in range(days):
+        shock = daily_vol * np.random.normal()
+        next_price = prices[-1] * math.exp(mean_daily_return + shock)
+        prices.append(next_price)
+
     return prices
+
 
 all_paths = []
 all_prices = []
@@ -51,6 +53,7 @@ for i in range(1000):
 
 cmp = plt.get_cmap('plasma')
 color_norm = clr.Normalize(min(all_prices),max(all_prices))
+plt.style.use('dark_background')
 
 plt.subplot(1, 2, 1)
 for path in all_paths:

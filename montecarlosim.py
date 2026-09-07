@@ -29,7 +29,6 @@ while True:
 
 pct_change_res = past.pct_change()
 log_returns = np.log(1 + pct_change_res)
-days = int(user_days)
 
 mean_daily_return = log_returns.mean()
 daily_vol = log_returns.std()

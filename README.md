@@ -6,9 +6,9 @@ A stock price simulator built on Geometric Brownian Motion. Takes any ticker and
 
 ## What it does
 - Downloads historical price data for a user-specified ticker using yfinance, with input validation.
-- Accepts a custom simulation length in days and handles non-numeric input.
+- Accepts a custom simulation length in trading days and handles non-numeric input.
 - Retrieves the company name for use in the chart title.
-- Calculates historical log returns, mean daily return, and daily volatility.
+- Calculates historical log returns, mean daily log return, and daily volatility.
 - Simulates 1,000 potential future price paths using Geometric Brownian Motion (GBM), each with an independent sequence of random shocks.
 - Displays simulated paths alongside a histogram of final prices, with aligned price axes for easy comparison.
 - Applies a shared color scale to paths and histogram bars based on final price, keeping both panels visually consistent.
@@ -36,7 +36,7 @@ For example, if the starting price is $100 and the 5th-percentile final price is
 ```
 yfinance     — market data and company info
 numpy        — GBM simulation, random normal generation, percentile calculation
-math         — exponential and square root for the GBM update step
+math         — exponential for the GBM update step
 matplotlib   — dual-panel visualization with colormap and per-bar recoloring
 ```
 

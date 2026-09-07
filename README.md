@@ -2,8 +2,7 @@
 
 A stock price simulator built on Geometric Brownian Motion. Takes any ticker and a custom time frame, pulls historical data, and simulates 1000 possible future price paths. Color coded by final price, with a matching orientation-aligned histogram and 95% Value at Risk calculated.
 
-<img width="1312" height="479" alt="Screenshot 2026-09-07 at 5 24 25 PM" src="https://github.com/user-attachments/assets/0dbaaffa-0843-4253-9f51-bd32c056c58c" />
-
+<img width="1306" height="483" alt="Screenshot 2026-09-07 at 5 31 44 PM" src="https://github.com/user-attachments/assets/ceba6779-b267-4e93-8e13-b14920db6a46" />
 
 ## What it does
 - Downloads historical price data for a user-specified ticker using yfinance, with input validation.

@@ -35,12 +35,10 @@ current_price = past.iloc[-1]
 
 def SimulateStock():
     prices = [current_price]
-
     for i in range(days):
         shock = daily_vol * np.random.normal()
         next_price = prices[-1] * math.exp(mean_daily_return + shock)
         prices.append(next_price)
-
     return prices
 
 

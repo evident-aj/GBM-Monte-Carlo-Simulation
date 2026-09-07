@@ -20,6 +20,7 @@ Geometric Brownian Motion (GBM) provides a simple, efficient starting point for 
   - Captures compounding: Price changes scale with the current stock price, reflecting percentage-based returns.
   - Uses historical data: Return and volatility estimates help calibrate the simulation.
   - Supports Monte Carlo analysis: Generating many possible paths helps visualize uncertainty and estimate potential downside risk.
+
 GBM assumes constant drift and volatility, with independent, normally distributed log returns. Real markets can experience sudden jumps, changing volatility, and more extreme outcomes than the model captures, so it serves as a useful baseline rather than a reliable price predictor.
 
 ## What Value at Risk means here

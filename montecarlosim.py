@@ -1,5 +1,5 @@
 import yfinance as yf
-import math as math
+import math
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib.colors as clr 
@@ -8,6 +8,7 @@ import matplotlib.colors as clr
 while True:
     user_input = input("What stock would you like to analyze (e.g., AAPL): ")
     ticker_symbol = user_input.strip().upper()
+    user_days = input("How many days would you like to simulate?: ")
     stock = yf.Ticker(ticker_symbol)
     info = stock.info
     name = info.get("longName", "N/A")
@@ -15,22 +16,28 @@ while True:
     if past.empty:
         print("No price data found for this ticker symbol.")
         continue
-    else:
+    try:
+        days = int(user_days)
         break
+    except:
+        print("Invalid number of days.")
+        continue
+    
 
 pct_change_res = past.pct_change()
 log_returns = np.log(1 + pct_change_res)
+days = int(user_days)
 
 mean_daily_return = log_returns.mean()
 daily_vol = log_returns.std()
-dt = 1/750
+dt = 1/days
 current_price = past.iloc[-1]
 
 
 def SimulateStock():
     drift = ((mean_daily_return - (daily_vol**2)/2) * dt)
     prices = [current_price]
-    for i in range(1, 252 + 1):
+    for i in range(1, days + 1):
         shock = daily_vol * np.random.normal() * math.sqrt(1/252)
         prices.append(prices[-1] * math.exp(drift + shock))
     return prices
@@ -63,7 +70,6 @@ plt.xlabel("Frequency")
 VaR = round(np.percentile(all_prices, 5), 2)
 
 plt.suptitle(f"GBM Monte Carlo Simulation\nStock: {name}\nVaR: ${VaR}")
-
 
 plt.tight_layout()
 plt.show()

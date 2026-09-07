@@ -18,6 +18,9 @@ while True:
         continue
     try:
         days = int(user_days)
+        if days <= 0:
+            print("Please enter a positive number of trading days.")
+            continue
         break
     except ValueError:
         print("Invalid number of days.")
@@ -53,7 +56,7 @@ cmp = plt.get_cmap('plasma')
 color_norm = clr.Normalize(min(all_prices),max(all_prices))
 plt.style.use('dark_background')
 
-plt.subplot(1, 2, 1)
+ax_paths = plt.subplot(1, 2, 1)
 for path in all_paths:
     color = cmp(color_norm(path[-1]))
     plt.plot(path, color=color, alpha=0.3)
@@ -61,7 +64,7 @@ plt.xlabel("Trading Days")
 plt.ylabel("Stock Price $")
 
 
-plt.subplot(1, 2, 2)
+plt.subplot(1, 2, 2, sharey=ax_paths)
 counts, bin_edges, bars = plt.hist(all_prices, orientation='horizontal')
 for i in range(len(bars)):
     midpoint = (bin_edges[i] + bin_edges[i + 1])/2

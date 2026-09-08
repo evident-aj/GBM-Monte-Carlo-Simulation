@@ -8,23 +8,26 @@ import yfinance as yf
 while True:
     user_input = input("What stock would you like to analyze (e.g., AAPL): ")
     ticker_symbol = user_input.strip().upper()
-    user_days = input("How many trading days would you like to simulate?: ")
-    stock = yf.Ticker(ticker_symbol)
-    info = stock.info
-    name = info.get("longName", "N/A")
-    past = stock.history(period="750d")['Close']
-    if past.empty:
-        print("No price data found for this ticker symbol.")
+    if not ticker_symbol:
+        print("Please enter a ticker symbol.")
         continue
+    stock = yf.Ticker(ticker_symbol)
+    user_days = input("How many trading days would you like to simulate?: ")
     try:
         days = int(user_days)
         if days <= 0:
             print("Please enter a positive number of trading days.")
             continue
-        break
     except ValueError:
         print("Invalid number of days.")
         continue
+    info = stock.info
+    name = info.get("longName", "N/A")
+    past = stock.history(period="3y")['Close']
+    if past.empty:
+        print("No price data found for this ticker symbol.")
+        continue
+    break
     
 
 pct_change_res = past.pct_change()

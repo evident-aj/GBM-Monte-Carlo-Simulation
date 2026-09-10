@@ -30,15 +30,20 @@ while True:
     break
     
 
-pct_change_res = past.pct_change()
-log_returns = np.log(1 + pct_change_res)
+def calculate_parameters(past):
+    pct_change_res = past.pct_change()
+    log_returns = np.log(1 + pct_change_res)
 
-mean_daily_return = log_returns.mean()
-daily_vol = log_returns.std()
-current_price = past.iloc[-1]
+    mean_daily_return = log_returns.mean()
+    daily_vol = log_returns.std()
+    current_price = past.iloc[-1]
+
+    return current_price, mean_daily_return, daily_vol
+
+current_price, mean_daily_return, daily_vol = calculate_parameters(past)
 
 
-def SimulateStock():
+def simulate_stock(current_price, mean_daily_return, daily_vol, days):
     prices = [current_price]
     for i in range(days):
         shock = daily_vol * np.random.normal()
@@ -50,35 +55,39 @@ def SimulateStock():
 all_paths = []
 all_prices = []
 for i in range(1000):
-    path = SimulateStock()
+    path = simulate_stock(current_price, mean_daily_return, daily_vol, days)
     all_paths.append(path)
     all_prices.append(path[-1])
 
-cmp = plt.get_cmap('plasma')
-color_norm = clr.Normalize(min(all_prices),max(all_prices))
-plt.style.use('dark_background')
+def plot_results(all_paths, all_prices, current_price, name, days):
+    plt.style.use('dark_background')
+    plt.figure(figsize=(12, 5))
+    cmp = plt.get_cmap('plasma')
+    color_norm = clr.Normalize(min(all_prices),max(all_prices))
 
-ax_paths = plt.subplot(1, 2, 1)
-for path in all_paths:
-    color = cmp(color_norm(path[-1]))
-    plt.plot(path, color=color, alpha=0.3)
-plt.xlabel("Trading Days")
-plt.ylabel("Stock Price $")
+    ax_paths = plt.subplot(1, 2, 1)
+    for path in all_paths:
+        color = cmp(color_norm(path[-1]))
+        plt.plot(path, color=color, alpha=0.3)
+
+    plt.xlabel("Trading Days")
+    plt.ylabel("Stock Price $")
 
 
-plt.subplot(1, 2, 2, sharey=ax_paths)
-counts, bin_edges, bars = plt.hist(all_prices, orientation='horizontal')
-for i in range(len(bars)):
-    midpoint = (bin_edges[i] + bin_edges[i + 1])/2
-    bars[i].set_facecolor(cmp(color_norm(midpoint)))
-plt.xlabel("Frequency") 
+    plt.subplot(1, 2, 2, sharey=ax_paths)
+    counts, bin_edges, bars = plt.hist(all_prices, orientation='horizontal')
+    for i in range(len(bars)):
+        midpoint = (bin_edges[i] + bin_edges[i + 1])/2
+        bars[i].set_facecolor(cmp(color_norm(midpoint)))
+    plt.xlabel("Frequency") 
 
-var_95 = current_price - np.percentile(all_prices, 5)
+    var_95 = current_price - np.percentile(all_prices, 5)
 
-plt.suptitle(f"GBM Monte Carlo Simulation\n"f"Stock: {name}\n"f"95% VaR per share ({days} trading days): ${var_95:.2f}")
+    plt.suptitle(f"GBM Monte Carlo Simulation\n"f"Stock: {name}\n"f"95% VaR per share ({days} trading days): ${var_95:.2f}")
+    plt.tight_layout()
+    plt.show()
 
-plt.tight_layout()
-plt.show()
+plot_results(all_paths, all_prices, current_price, name, days)
 
 
 
